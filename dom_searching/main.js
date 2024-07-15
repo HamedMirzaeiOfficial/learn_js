@@ -22,3 +22,6 @@ console.log(myLi);
 
 let closestElement = myLi.closest('div');
 console.log(closestElement);
+
+
+

@@ -50,3 +50,24 @@ Employee.prototype = Object.create(Person.prototype);
 var employee_1 = new Employee('mark', 'wallberg', 43, 178, 2000);
 console.log(employee_1);
 console.log(employee_1.getFullName());
+
+
+
+console.log('______________________________****____________________________')
+let newObj = {
+    name: "hamed",
+    family: "mirzaei", 
+    get age(){
+        return this.userAge;
+    },
+    set age(inputAge){
+        this.userAge = inputAge;
+    }
+
+}
+
+console.log(newObj)
+newObj.age = 23
+console.log(newObj.age)
+console.log(newObj.userAge)
+

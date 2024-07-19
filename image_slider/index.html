@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .small-image{
+            display: inline-block;
+            width: 250px;
+        }
+        .image-responsive{
+            width: 100%;
+            height: 70vh;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="slider-container">
+
+    </div>
+
+    <script>
+        var images = [
+            'https://fastly.picsum.photos/id/11/2500/1667.jpg?hmac=xxjFJtAPgshYkysU_aqx2sZir-kIOjNR9vx0te7GycQ', 
+            'https://fastly.picsum.photos/id/10/2500/1667.jpg?hmac=J04WWC_ebchx3WwzbM-Z4_KC_LeLBWr5LZMaAkWkF68',
+            'https://fastly.picsum.photos/id/12/2500/1667.jpg?hmac=Pe3284luVre9ZqNzv1jMFpLihFI6lwq7TPgMSsNXw2w',
+            'https://fastly.picsum.photos/id/17/2500/1667.jpg?hmac=HD-JrnNUZjFiP2UZQvWcKrgLoC_pc_ouUSWv8kHsJJY'
+        ];
+
+        function Slider(images, autoChangeInterval){
+            this.images = images;
+            this.autoChangeInterval = autoChangeInterval;
+            this.activeImageIndex = 0;
+        }
+        
+        Slider.prototype.init = function(){
+            var sliderObject = this;
+            var mainSliderElement = document.getElementById('slider-container');
+            var mainImageElement = document.createElement('img');
+            mainImageElement.setAttribute('id', 'main-image');
+            mainImageElement.classList.add('image-responsive')
+
+            mainSliderElement.appendChild(mainImageElement);
+
+            var smalImagesContainer = document.createElement('div');
+            
+            for(var i=0; i<this.images.length; i++){
+                var smallImageElement = document.createElement('img');
+                smallImageElement.classList.add('small-image');
+                smallImageElement.setAttribute('src', this.images[i]);
+                smalImagesContainer.appendChild(smallImageElement);
+                smallImageElement.setAttribute('data-index', i);
+
+                smallImageElement.addEventListener('click', function(event){
+                    sliderObject.activeImageIndex = event.target.getAttribute('data-index');
+                    sliderObject.updateImage();
+                })
+            }
+
+            mainSliderElement.appendChild(smalImagesContainer);
+
+            this.updateImage();
+            
+            setInterval(function(){
+                if(sliderObject.activeImageIndex == sliderObject.images.length - 1){
+                    sliderObject.activeImageIndex = 0;
+                }
+                else{
+                    sliderObject.activeImageIndex++;
+                }
+                sliderObject.updateImage();
+            }, 4000)
+
+        }
+
+        Slider.prototype.updateImage = function(){
+            var mainImageElement = document.getElementById('main-image');
+            mainImageElement.setAttribute('src', this.images[this.activeImageIndex]);
+        }
+
+        function main(){
+            var slider = new Slider(images, 5000);
+            slider.init();
+        }
+        
+        main();
+</script>
+</body>
+</html>

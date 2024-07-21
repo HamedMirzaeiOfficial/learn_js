@@ -71,3 +71,41 @@ newObj.age = 23
 console.log(newObj.age)
 console.log(newObj.userAge)
 
+console.log('______________________________****____________________________')
+
+class Animal{
+    constructor(){
+        this.name = 'cat';
+    }
+    running(){
+        console.log(this.name + ' running!!!');
+    }
+}
+
+let animal = new Animal()
+console.log(animal)
+animal.running()
+
+
+// inheritance in class
+class Person1{
+    constructor(name){
+        this.name = name;
+    }
+    getName(){
+        return 'her/his name is ' + this.name;
+    }
+    
+}
+
+class Employee1 extends Person1{
+    constructor(name, salary){
+        super(name);
+        this.salary = salary;
+    }
+}
+
+
+let emp1 = new Employee1('ian', 120000);
+console.log(emp1)
+console.log(emp1.getName());

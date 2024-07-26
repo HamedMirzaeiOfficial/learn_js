@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .toast-message{
+            width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 2px;
+            padding: 16px;
+            margin-top: 10px;
+            font-size: 17px;
+        }
+        
+        .toast-container {
+            position: fixed;
+            top: 50px;
+            left: 0;
+            right: 0;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .toast--show{
+            visibility: visible;
+        }
+
+        .toast--danger{
+            background-color: rgb(236, 19, 19);
+        }
+
+        .toast--success{
+            background-color: greenyellow;
+        }
+    </style>
+</head>
+<body>
+    <button>Show messages</button>
+  
+    <script>
+        class Toast{
+            _defaultOptions = {
+                duration: 500, 
+            }
+
+            constructor(options = {}){
+                this._configs = {...this._defaultOptions, ...options};
+            }
+
+            show(message, type=''){
+                const container = this._buildAndAppendContainer();
+                const messageElement = this._buildMessage(message, type);
+                container.appendChild(messageElement);
+                this._destroyMessage(messageElement);
+            }
+
+            _buildMessage(message, type){
+                const messageElement = this._buildElement('toast-message');
+                messageElement.classList.add(`toast--${type}`)
+                messageElement.innerText = message;
+                return messageElement;
+            }
+
+            _buildAndAppendContainer(){
+                if(!this._container){
+                    this._container = this._buildElement('toast-container');
+                    document.body.appendChild(this._container);
+                }
+                return this._container;                     
+            }
+
+            _buildElement(className){
+                const element = document.createElement('div');
+                element.classList.add(className);
+                return element;
+            }
+
+            _destroyMessage(messageElement){
+                setTimeout(() => {
+                    messageElement.remove();
+                }, this._configs.duration);
+            }   
+        } 
+
+        const toast = new Toast({duration: 5000});
+
+        document.querySelector('button').addEventListener('click', () => {
+            toast.show('message 1', 'danger');
+            toast.show('message 2');
+            toast.show('message 3', 'success');
+        })
+      
+    </script>
+</body>
+</html>
